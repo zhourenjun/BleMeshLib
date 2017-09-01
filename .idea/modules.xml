@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BleMeshLib.iml" filepath="$PROJECT_DIR$/BleMeshLib.iml" />
+      <module fileurl="file://E:\ble\BleMeshLib\BleMeshLib.iml" filepath="E:\ble\BleMeshLib\BleMeshLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/BluetoothLightLib/BluetoothLightLib.iml" filepath="$PROJECT_DIR$/BluetoothLightLib/BluetoothLightLib.iml" />
+      <module fileurl="file://E:\ble\BleMeshLib\BluetoothLightLib\BluetoothLightLib.iml" filepath="E:\ble\BleMeshLib\BluetoothLightLib\BluetoothLightLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://E:\ble\BleMeshLib\app\app.iml" filepath="E:\ble\BleMeshLib\app\app.iml" />
     </modules>
   </component>
 </project>
