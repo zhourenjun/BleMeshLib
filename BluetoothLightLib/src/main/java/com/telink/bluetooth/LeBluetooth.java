@@ -170,8 +170,7 @@ public final class LeBluetooth {
             }
 
         } else {
-            if (!mAdapter.startLeScan(serviceUUIDs,
-                    mLeScanCallback)) {
+            if (!mAdapter.startLeScan(serviceUUIDs,mLeScanCallback)) {
                 synchronized (this) {
                     mScanning = false;
                 }
@@ -233,8 +232,7 @@ public final class LeBluetooth {
      * @return
      */
     public boolean isEnabled() {
-        return this.mAdapter != null
-                && this.mAdapter.isEnabled();
+        return this.mAdapter != null && this.mAdapter.isEnabled();
     }
 
     /**

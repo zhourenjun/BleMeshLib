@@ -21,6 +21,5 @@ public interface AdvertiseDataFilter<E extends LightPeripheral> {
      * @param scanRecord 广播数据包
      * @return
      */
-    E filter(BluetoothDevice device, int rssi,
-             byte[] scanRecord);
+    E filter(BluetoothDevice device, int rssi,  byte[] scanRecord);
 }

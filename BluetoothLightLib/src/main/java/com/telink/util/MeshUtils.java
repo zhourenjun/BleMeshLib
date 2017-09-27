@@ -13,7 +13,7 @@ public final class MeshUtils {
 
     public static final int GROUP_ADDRESS_MIN = 0x8001;
     public static final int GROUP_ADDRESS_MAX = 0x80FF;
-    public static final int DEVICE_ADDRESS_MIN = 0x0001;
+    public static final int DEVICE_ADDRESS_MIN = 0x00c8;
     public static final int DEVICE_ADDRESS_MAX = 0x00FF;
 
     public static final String CHARS = "123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ+-*/<>/?!@#$%^&;'[]{}|,.";

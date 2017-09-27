@@ -43,12 +43,12 @@ public class TelinkApplication extends Application {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            TelinkApplication.this.onServiceConnected(name, service);
+            serviceConnected(name, service);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            TelinkApplication.this.onServiceDisconnected(name);
+            serviceDisconnected(name);
         }
     };
 
@@ -106,7 +106,6 @@ public class TelinkApplication extends Application {
         stopLightService();
         if (mLightReceiver != null)
             LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mLightReceiver);
-
         removeEventListeners();
         mCurrentConnect = null;
         serviceStarted = false;
@@ -116,7 +115,6 @@ public class TelinkApplication extends Application {
     protected BroadcastReceiver makeLightReceiver() {
         if (mLightReceiver == null)
             mLightReceiver = new BroadcastReceiver() {
-
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
@@ -128,19 +126,19 @@ public class TelinkApplication extends Application {
                             onStatusChanged(intent);
                             break;
                         case LightService.ACTION_UPDATE_MESH_COMPLETED:
-                            onUpdateMeshCompleted(intent);
+                            onUpdateMeshCompleted();
                             break;
                         case LightService.ACTION_OFFLINE:
-                            onMeshOffline(intent);
+                            onMeshOffline();
                             break;
                         case LightService.ACTION_LE_SCAN:
                             onLeScan(intent);
                             break;
                         case LightService.ACTION_LE_SCAN_TIMEOUT:
-                            onLeScanTimeout(intent);
+                            onLeScanTimeout();
                             break;
                         case LightService.ACTION_SCAN_COMPLETED:
-                            onLeScanCompleted(intent);
+                            onLeScanCompleted();
                             break;
                         case LightService.ACTION_ERROR:
                             onError(intent);
@@ -209,8 +207,7 @@ public class TelinkApplication extends Application {
             return;
         serviceStarted = true;
         Intent service = new Intent(mContext, clazz);
-        bindService(service, mServiceConnection,
-                Context.BIND_AUTO_CREATE);
+        bindService(service, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -225,13 +222,13 @@ public class TelinkApplication extends Application {
         }
     }
 
-    protected void onServiceConnected(ComponentName name, IBinder service) {
+    protected void serviceConnected(ComponentName name, IBinder service) {
         TelinkLog.d("service connected --> " + name.getShortClassName());
         serviceConnected = true;
         dispatchEvent(ServiceEvent.newInstance(this, ServiceEvent.SERVICE_CONNECTED, service));
     }
 
-    protected void onServiceDisconnected(ComponentName name) {
+    protected void serviceDisconnected(ComponentName name) {
         TelinkLog.d("service disconnected --> " + name.getShortClassName());
         serviceConnected = false;
         dispatchEvent(ServiceEvent.newInstance(this, ServiceEvent.SERVICE_DISCONNECTED, null));
@@ -243,11 +240,11 @@ public class TelinkApplication extends Application {
         dispatchEvent(LeScanEvent.newInstance(this, LeScanEvent.LE_SCAN, deviceInfo));
     }
 
-    protected void onLeScanCompleted(Intent intent) {
+    protected void onLeScanCompleted() {
         dispatchEvent(LeScanEvent.newInstance(this, LeScanEvent.LE_SCAN_COMPLETED, null));
     }
 
-    protected void onLeScanTimeout(Intent intent) {
+    protected void onLeScanTimeout() {
         dispatchEvent(LeScanEvent.newInstance(this, LeScanEvent.LE_SCAN_TIMEOUT, null));
     }
 
@@ -265,11 +262,11 @@ public class TelinkApplication extends Application {
         dispatchEvent(DeviceEvent.newInstance(this, DeviceEvent.STATUS_CHANGED, deviceInfo));
     }
 
-    protected void onUpdateMeshCompleted(Intent intent) {
+    protected void onUpdateMeshCompleted() {
         dispatchEvent(MeshEvent.newInstance(this, MeshEvent.UPDATE_COMPLETED, -1));
     }
 
-    protected void onMeshOffline(Intent intent) {
+    protected void onMeshOffline() {
         dispatchEvent(MeshEvent.newInstance(this, MeshEvent.OFFLINE, -1));
     }
 
