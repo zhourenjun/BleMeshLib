@@ -23,7 +23,7 @@ class LeBluetooth private constructor() {
     private lateinit var mScanner: BluetoothLeScanner
     private lateinit var mScanCallback: ScanCallback
     private lateinit var mCallback: LeScanCallback
-    private lateinit var mAdapter: BluetoothAdapter
+    private var mAdapter: BluetoothAdapter? = null
     private lateinit var mContext: Context
 
 
@@ -40,7 +40,7 @@ class LeBluetooth private constructor() {
     /**
      * 蓝牙是否打开
      */
-    val isEnabled = mAdapter != null && mAdapter.isEnabled
+    val isEnabled = mAdapter != null && mAdapter!!.isEnabled
 
     /**
      * 设置回调函数
@@ -102,7 +102,7 @@ class LeBluetooth private constructor() {
     private fun scan(serviceUUIDs: Array<UUID>?) {
 
         if (isSupportLollipop) {
-            mScanner = mAdapter.bluetoothLeScanner
+            mScanner = mAdapter!!.bluetoothLeScanner
             if (mScanner == null) {
                 synchronized(this) {
                     mScanning = false
@@ -118,7 +118,7 @@ class LeBluetooth private constructor() {
             }
 
         } else {
-            if (!mAdapter.startLeScan(serviceUUIDs, mLeScanCallback)) {
+            if (!mAdapter!!.startLeScan(serviceUUIDs, mLeScanCallback)) {
                 synchronized(this) {
                     mScanning = false
                 }
@@ -151,7 +151,7 @@ class LeBluetooth private constructor() {
                     mScanner.stopScan(mScanCallback)
             } else {
                 if (mAdapter != null)
-                    mAdapter.stopLeScan(mLeScanCallback)
+                    mAdapter!!.stopLeScan(mLeScanCallback)
             }
         } catch (e: Exception) {
             BleLog.d("蓝牙停止异常")
@@ -172,10 +172,7 @@ class LeBluetooth private constructor() {
         return getAdapter(context) != null
     }
 
-    fun enable(context: Context): Boolean {
-        val mAdapter = getAdapter(context) ?: return false
-        return if (mAdapter.isEnabled) true else mAdapter.enable()
-    }
+    fun enable() = if (mAdapter!!.isEnabled) true else mAdapter!!.enable()
 
     private fun getAdapter(context: Context): BluetoothAdapter? {
         synchronized(this) {
@@ -184,7 +181,6 @@ class LeBluetooth private constructor() {
                 mAdapter = manager.adapter
             }
         }
-
         return mAdapter
     }
 
