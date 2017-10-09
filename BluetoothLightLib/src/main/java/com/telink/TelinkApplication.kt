@@ -14,7 +14,7 @@ import com.telink.util.BleLog
 import com.telink.util.Strings
 import kotlin.properties.Delegates
 
-class TelinkApplication : Application() {
+open class TelinkApplication : Application() {
 
     companion object {
         private var mThis: TelinkApplication by Delegates.notNull()
