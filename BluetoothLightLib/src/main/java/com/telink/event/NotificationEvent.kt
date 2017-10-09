@@ -3,7 +3,7 @@ package com.telink.event
 import android.app.Application
 import com.telink.mode.NotificationInfo
 import com.telink.param.Opcode
-import com.telink.bluetooth.parser.NotificationParser
+import com.telink.parser.NotificationParser
 import java.util.*
 import kotlin.experimental.and
 
