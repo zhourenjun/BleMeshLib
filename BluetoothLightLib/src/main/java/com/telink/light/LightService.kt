@@ -13,17 +13,11 @@ import com.telink.param.Parameters
 
 /**
  * LightService是一个抽象类,封装了扫描加灯,自动重连,设备控制等方法.
- * @see LightAdapter
- * @see LeScanParameters
- * @see LeAutoConnectParameters
- * @see LeUpdateParameters
- * @see LeOtaParameters
- * @see LeRefreshNotifyParameters
  */
 abstract class LightService : Service(), LightAdapter.Callback, AdvanceStrategy.Callback {
 
-    lateinit var adapter: LightAdapter
-    lateinit var mBinder: IBinder
+     var adapter= LightAdapter()
+     var mBinder: IBinder?=null
 
     /**
      * 获取当前工作模式
@@ -54,15 +48,15 @@ abstract class LightService : Service(), LightAdapter.Callback, AdvanceStrategy.
 
     override fun onCreate() {
         super.onCreate()
-        AdvanceStrategy.default!!.setCallback(this)
-        AdvanceStrategy.default!!.onStart()
+        AdvanceStrategy.default.setCallback(this)
+        AdvanceStrategy.default.onStart()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
         super.onDestroy()
-        AdvanceStrategy.default!!.setCallback(null!!)
-        AdvanceStrategy.default!!.onStop()
+        AdvanceStrategy.default.setCallback(null)
+        AdvanceStrategy.default.onStop()
         if (adapter != null) {
             adapter.stop()
         }
@@ -196,7 +190,7 @@ abstract class LightService : Service(), LightAdapter.Callback, AdvanceStrategy.
     }
 
     fun sendCommandNoResponse(opcode: Byte, address: Int, params: ByteArray, tag: Any?, delay: Int, immediate: Boolean): Boolean {
-        return adapter != null && AdvanceStrategy.default!!.postCommand(opcode, address, params, delay, tag!!, true, immediate)
+        return adapter != null && AdvanceStrategy.default.postCommand(opcode, address, params, delay, tag!!, true, immediate)
     }
 
     fun autoRefreshNotify(enable: Boolean, params: Parameters) {

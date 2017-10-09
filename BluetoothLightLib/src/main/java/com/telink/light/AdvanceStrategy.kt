@@ -8,7 +8,7 @@ import kotlin.experimental.and
  * 命令写入FIFO策略
  */
 abstract class AdvanceStrategy {
-    lateinit var mCallback: Callback
+     var mCallback: Callback?=null
     //设置采样率,单位毫秒
     var sampleRate = 320
 
@@ -19,7 +19,7 @@ abstract class AdvanceStrategy {
         }
 
     //回调接口,采样到的命令交由回调接口处理
-    fun setCallback(mCallback: Callback) {
+    fun setCallback(mCallback: Callback?) {
         this.mCallback = mCallback
     }
 
@@ -77,7 +77,7 @@ abstract class AdvanceStrategy {
                 BleLog.d("Delay run Opcode :${Integer.toHexString(opcode.toInt())}")
                 lastSampleTime = System.currentTimeMillis()
                 lastCmdTime = System.currentTimeMillis()
-                this@DefaultAdvanceStrategy.mCallback.onCommandSampled(opcode, address, params, tag, delay)
+                this@DefaultAdvanceStrategy.mCallback!!.onCommandSampled(opcode, address, params, tag, delay)
             }
         }
 
@@ -135,7 +135,7 @@ abstract class AdvanceStrategy {
                 }
                 lastCmdTime = System.currentTimeMillis()
                 //所有采样到的命令立即交给回调接口处理
-                return mCallback.onCommandSampled(opcode, address, params, tag, delay)
+                return mCallback!!.onCommandSampled(opcode, address, params, tag, delay)
             }
             BleLog.d("Delay Opcode : ${Integer.toHexString(opcode.toInt())}")
             return false
@@ -153,11 +153,11 @@ abstract class AdvanceStrategy {
 
         private val COMMAND_DELAY = 320
 
-        var default: AdvanceStrategy?
+        var default: AdvanceStrategy
             get() {
                 synchronized(AdvanceStrategy::class.java) {
                     if (definition != null)
-                        return definition
+                        return definition as AdvanceStrategy
                 }
                 return DEFAULT
             }
