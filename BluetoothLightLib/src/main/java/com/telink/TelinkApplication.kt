@@ -51,10 +51,14 @@ open class TelinkApplication : Application() {
         BleLog.d("TelinkApp Created.")
     }
 
+    open fun doInit() {
+        doInit(null)
+    }
+
     /**
      * 执行初始化,APP启动时调用
      */
-   open fun doInit(clazz: Class<out LightService>? = null) {
+    fun doInit(clazz: Class<out LightService>? = null) {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(makeLightReceiver(), makeLightFilter())
         if (clazz != null) startLightService(clazz)
         registerNotificationParser(OnlineStatusNotificationParser.create())
@@ -148,7 +152,7 @@ open class TelinkApplication : Application() {
     /**
      * 启动LightService
      */
-    private fun startLightService(clazz: Class<out LightService>) {
+     fun startLightService(clazz: Class<out LightService>) {
         if (serviceStarted || serviceConnected) return
         serviceStarted = true
         val service = Intent(mContext, clazz)
