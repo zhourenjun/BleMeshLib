@@ -24,7 +24,7 @@ open class TelinkApplication : Application() {
     private lateinit var mContext: Context
     private var serviceStarted = false
     private var serviceConnected = false
-    private lateinit var mLightReceiver: BroadcastReceiver
+    private  var mLightReceiver: BroadcastReceiver? = null
 
     private val mServiceConnection = object : ServiceConnection {
 
@@ -80,7 +80,7 @@ open class TelinkApplication : Application() {
         serviceConnected = false
     }
 
-    private fun makeLightReceiver(): BroadcastReceiver {
+    private fun makeLightReceiver(): BroadcastReceiver? {
         if (mLightReceiver == null)
             mLightReceiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
