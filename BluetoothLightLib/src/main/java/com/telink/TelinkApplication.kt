@@ -45,16 +45,16 @@ open class TelinkApplication : Application() {
 
 
     override fun onCreate() {
+        super.onCreate()
         mThis = this
         mContext = this
-        super.onCreate()
         BleLog.d("TelinkApp Created.")
     }
 
     /**
      * 执行初始化,APP启动时调用
      */
-    fun doInit(clazz: Class<out LightService>? = null) {
+   open fun doInit(clazz: Class<out LightService>? = null) {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(makeLightReceiver(), makeLightFilter())
         if (clazz != null) startLightService(clazz)
         registerNotificationParser(OnlineStatusNotificationParser.create())
@@ -67,7 +67,7 @@ open class TelinkApplication : Application() {
     /**
      * 销毁,当退出APP时调用此方法
      */
-    fun doDestroy() {
+   open fun doDestroy() {
         stopLightService()
         if (mLightReceiver != null) LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mLightReceiver)
         removeEventListeners()
@@ -112,21 +112,21 @@ open class TelinkApplication : Application() {
     /**
      * 添加一个事件监听器
      */
-    fun addEventListener(eventType: String, listener: EventListener<String>) {
+     fun addEventListener(eventType: String, listener: EventListener<String>) {
         mEventBus.addEventListener(eventType, listener)
     }
 
     /**
      * 移除事件监听器
      */
-    fun removeEventListener(listener: EventListener<String>) {
+     fun removeEventListener(listener: EventListener<String>) {
         mEventBus.removeEventListener(listener)
     }
 
     /**
      * 从事件监听器中移除指定的事件
      */
-    fun removeEventListener(eventType: String, listener: EventListener<String>) {
+    open  fun removeEventListener(eventType: String, listener: EventListener<String>) {
         mEventBus.removeEventListener(eventType, listener)
     }
 

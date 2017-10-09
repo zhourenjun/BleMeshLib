@@ -23,7 +23,7 @@ import com.telink.param.Parameters
 abstract class LightService : Service(), LightAdapter.Callback, AdvanceStrategy.Callback {
 
     lateinit var adapter: LightAdapter
-    private lateinit var mBinder: IBinder
+    lateinit var mBinder: IBinder
 
     /**
      * 获取当前工作模式
@@ -328,6 +328,7 @@ abstract class LightService : Service(), LightAdapter.Callback, AdvanceStrategy.
         deviceInfo.meshUUID = light.meshUUID
         deviceInfo.productUUID = light.productUUID
         deviceInfo.status = light.status
+        deviceInfo.rssi = light.rssi
 
         val intent = Intent()
         intent.action = ACTION_LE_SCAN

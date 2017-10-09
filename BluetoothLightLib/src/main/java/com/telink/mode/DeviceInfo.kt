@@ -16,19 +16,19 @@ open class DeviceInfo : Serializable {
     var meshName = ""
 
     // 网络地址
-    var meshAddress: Int = 0
+    var meshAddress = 0
 
-    var meshUUID: Int = 0
+    var meshUUID = 0
 
     // 设备的产品标识符
-    var productUUID: Int = 0
+    var productUUID = 0
 
-    var status: Int = 0
+    var status = 0
 
     var longTermKey = ByteArray(16)
 
     //设备的firmware版本
     var firmwareRevision = ""
 
-
+    var rssi = 0
 }
